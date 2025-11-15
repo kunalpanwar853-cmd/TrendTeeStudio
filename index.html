@@ -1,0 +1,1213 @@
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendTee Studio - Premium T-Shirts</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f0 50%, #e8e0f5 100%);
+            overflow-x: hidden;
+            color: #1a1a1a;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.5rem 2rem;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: 'TREND';
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            font-size: 15vw;
+            font-weight: 900;
+            color: rgba(102, 126, 234, 0.05);
+            transform: translateY(-50%) rotate(-15deg);
+            z-index: 0;
+            white-space: nowrap;
+            letter-spacing: -2px;
+        }
+
+        .hero::after {
+            content: 'STYLE';
+            position: absolute;
+            bottom: 5%;
+            right: -5%;
+            font-size: 12vw;
+            font-weight: 900;
+            color: rgba(118, 75, 162, 0.05);
+            transform: rotate(15deg);
+            z-index: 0;
+            white-space: nowrap;
+            letter-spacing: -2px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 4rem;
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-card-hero {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tshirt-mockup {
+            width: 300px;
+            height: 400px;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: float 4s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float-around 6s ease-in-out infinite;
+        }
+
+        @keyframes float-around {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.6;
+            }
+            25% {
+                transform: translate(40px, -40px) rotate(90deg);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(0, -80px) rotate(180deg);
+                opacity: 0.6;
+            }
+            75% {
+                transform: translate(-40px, -40px) rotate(270deg);
+                opacity: 0.8;
+            }
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: #1a1a1a;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        .product-item {
+            group background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #f5f0ff 0%, #e8e0f5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: spotlight 6s ease-in-out infinite;
+        }
+
+        @keyframes spotlight {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-swatch {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .color-swatch:hover {
+            border-color: #667eea;
+            transform: scale(1.15);
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Collections Section */
+        .collections-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #f5f0ff 0%, #ffe8f0 50%, #e8f0ff 100%);
+            margin: 2rem 0;
+        }
+
+        .collections-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .collection-card {
+            position: relative;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            group
+        }
+
+        .collection-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.6) 100%);
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .collection-card:hover::before {
+            opacity: 1;
+        }
+
+        .collection-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.4s ease;
+        }
+
+        .collection-card:hover .collection-bg {
+            transform: scale(1.05);
+        }
+
+        .collection-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            color: white;
+            z-index: 3;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .collection-card:hover .collection-label {
+            transform: translateY(0);
+        }
+
+        .collection-label h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.15);
+        }
+
+        .rating {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffc107;
+        }
+
+        .testimonial-text {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .customer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .customer-name {
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .customer-title {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-section a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #1a1a1a;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1.5rem;
+                font-size: 0.85rem;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0;
+            }
+
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-visual {
+                height: 350px;
+            }
+
+            .tshirt-mockup {
+                width: 200px;
+                height: 280px;
+                font-size: 80px;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .product-item {
+                margin: 0;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .hero::before {
+                font-size: 12vw;
+                left: -20%;
+            }
+
+            .hero::after {
+                font-size: 10vw;
+                bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 7rem 1rem 1rem;
+            }
+
+            .hero-text h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 200px;
+                font-size: 70px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">TrendTee Studio</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#collections">Collections</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="cart-icon" onclick="openCart()">🛒</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text fade-in-up">
+                <h1>Wear Your Style, Own Your Trend</h1>
+                <p>Premium T-shirts designed for the modern individual. Express yourself with our curated collection of high-quality, sustainable fashion pieces.</p>
+                <button class="cta-button" onclick="scrollToProducts()">Explore Collection</button>
+            </div>
+            <div class="hero-visual fade-in-up stagger-1">
+                <div class="product-card-hero">
+                    <div class="tshirt-mockup">👕</div>
+                    <div class="floating-element" style="top: 20px; left: 20px; font-size: 2rem;">✨</div>
+                    <div class="floating-element" style="top: 30%; right: 10%; font-size: 1.5rem; animation-delay: 1s;">🧵</div>
+                    <div class="floating-element" style="bottom: 20px; right: 15%; font-size: 1.8rem; animation-delay: 2s;">💫</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="section-header fade-in-up">
+            <h2>Featured Collection</h2>
+            <p>Hand-picked designs crafted with premium materials for ultimate comfort and style</p>
+        </div>
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-item fade-in-up stagger-1">
+                <div class="product-image">👕</div>
+                <div class="product-info">
+                    <h3 class="product-name">Urban Minimal</h3>
+                    <p class="product-description">Clean lines, timeless design</p>
+                    <div class="product-price">$49.99</div>
+                    <div class="color-options">
+                        <div class="color-swatch" style="background: #000;"></div>
+                        <div class="color-swatch" style="background: #fff; border: 2px solid #ddd;"></div>
+                        <div class="color-swatch" style="background: #667eea;"></div>
+                        <div class="color-swatch" style="background: #764ba2;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Urban Minimal', 49.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-item fade-in-up stagger-2">
+                <div class="product-image">👕</div>
+                <div class="product-info">
+                    <h3 class="product-name">Street Vibes</h3>
+                    <p class="product-description">Bold statement piece</p>
+                    <div class="product-price">$59.99</div>
+                    <div class="color-options">
+                        <div class="color-swatch" style="background: #ff6b6b;"></div>
+                        <div class="color-swatch" style="background: #ffd93d;"></div>
+                        <div class="color-swatch" style="background: #6bcf7f;"></div>
+                        <div class="color-swatch" style="background: #4ecdc4;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Street Vibes', 59.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-item fade-in-up stagger-3">
+                <div class="product-image">👕</div>
+                <div class="product-info">
+                    <h3 class="product-name">Cosmic Dream</h3>
+                    <p class="product-description">Artistic expression</p>
+                    <div class="product-price">$54.99</div>
+                    <div class="color-options">
+                        <div class="color-swatch" style="background: #2d3436;"></div>
+                        <div class="color-swatch" style="background: #667eea;"></div>
+                        <div class="color-swatch" style="background: #a29bfe;"></div>
+                        <div class="color-swatch" style="background: #fd79a8;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Cosmic Dream', 54.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-item fade-in-up stagger-4">
+                <div class="product-image">👕</div>
+                <div class="product-info">
+                    <h3 class="product-name">Zen Culture</h3>
+                    <p class="product-description">Minimalist elegance</p>
+                    <div class="product-price">$44.99</div>
+                    <div class="color-options">
+                        <div class="color-swatch" style="background: #ecf0f1;"></div>
+                        <div class="color-swatch" style="background: #95a5a6;"></div>
+                        <div class="color-swatch" style="background: #34495e;"></div>
+                        <div class="color-swatch" style="background: #16a085;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Zen Culture', 44.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-item fade-in-up stagger-1">
+                <div class="product-image">👕</div>
+                <div class="product-info">
+                    <h3 class="product-name">Neo Tokyo</h3>
+                    <p class="product-description">Futuristic design</p>
+                    <div class="product-price">$64.99</div>
+                    <div class="color-options">
+                        <div class="color-swatch" style="background: #1a1a1a;"></div>
+                        <div class="color-swatch" style="background: #00d4ff;"></div>
+                        <div class="color-swatch" style="background: #ff006e;"></div>
+                        <div class="color-swatch" style="background: #ffbe0b;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Neo Tokyo', 64.99)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-item fade-in-up stagger-2">
+                <div class="product-image">👕</div>
+                <div class="product-info">
+                    <h3 class="product-name">Studio Classic</h3>
+                    <p class="product-description">Timeless essential</p>
+                    <div class="product-price">$39.99</div>
+                    <div class="color-options">
+                        <div class="color-swatch" style="background: #fff5e1;"></div>
+                        <div class="color-swatch" style="background: #ffe0b2;"></div>
+                        <div class="color-swatch" style="background: #ffccbc;"></div>
+                        <div class="color-swatch" style="background: #ffab91;"></div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('Studio Classic', 39.99)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collections Section -->
+    <section class="collections-section" id="collections">
+        <div class="section-header fade-in-up" style="color: #1a1a1a;">
+            <h2>Collections</h2>
+            <p>Explore our carefully curated collections</p>
+        </div>
+        <div class="collections-grid">
+            <div class="collection-card fade-in-up stagger-1">
+                <div class="collection-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                <div class="collection-label">
+                    <h3>Summer Vibes</h3>
+                    <p>12 items</p>
+                </div>
+            </div>
+            <div class="collection-card fade-in-up stagger-2">
+                <div class="collection-bg" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                <div class="collection-label">
+                    <h3>Premium Line</h3>
+                    <p>8 items</p>
+                </div>
+            </div>
+            <div class="collection-card fade-in-up stagger-3">
+                <div class="collection-bg" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                <div class="collection-label">
+                    <h3>Limited Edition</h3>
+                    <p>5 items</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="about">
+        <div class="section-header fade-in-up">
+            <h2>What Our Customers Say</h2>
+            <p>Join thousands of satisfied customers</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card fade-in-up stagger-1">
+                <div class="rating">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"The quality is exceptional. I've purchased three times now and every piece is perfectly made. TrendTee Studio is my go-to for fashion!"</p>
+                <div class="customer-info">
+                    <div class="customer-avatar">JD</div>
+                    <div>
+                        <div class="customer-name">Jordan Davis</div>
+                        <div class="customer-title">Fashion Enthusiast</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in-up stagger-2">
+                <div class="rating">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"Incredible designs and the sustainability aspect really appeals to me. These aren't just clothes, they're statements. Highly recommend!"</p>
+                <div class="customer-info">
+                    <div class="customer-avatar">SA</div>
+                    <div>
+                        <div class="customer-name">Sarah Anderson</div>
+                        <div class="customer-title">Sustainable Fashion Advocate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card fade-in-up stagger-3">
+                <div class="rating">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">"Fast shipping, perfect fit, and customer service is top-notch. TrendTee Studio sets the standard for online shopping!"</p>
+                <div class="customer-info">
+                    <div class="customer-avatar">MJ</div>
+                    <div>
+                        <div class="customer-name">Marcus Johnson</div>
+                        <div class="customer-title">Regular Customer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Our Team</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Best Sellers</a></li>
+                    <li><a href="#">Sale</a></li>
+                    <li><a href="#">Collections</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">TikTok</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 TrendTee Studio. All rights reserved. | Privacy Policy | Terms & Conditions</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Shopping Cart</h2>
+                <button class="close-btn" onclick="closeCart()">✕</button>
+            </div>
+            <div id="cartItems" style="max-height: 300px; overflow-y: auto; margin-bottom: 1.5rem;">
+                <p style="color: #999; text-align: center; padding: 2rem;">Your cart is empty</p>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <div style="flex: 1;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Subtotal:</label>
+                    <p style="font-size: 1.3rem; font-weight: 700;" id="subtotal">$0.00</p>
+                </div>
+                <button class="cta-button" style="flex: 1; margin: 0;" onclick="checkout()">Checkout</button>
+            </div>
+            <button style="width: 100%; padding: 0.75rem; background: #f0f0f0; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;" onclick="closeCart()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.product-item, .testimonial-card, .collection-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Cart functionality
+        let cart = [];
+
+        function addToCart(productName, price) {
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name: productName, price, quantity: 1 });
+            }
+            updateCartDisplay();
+            openCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function updateQuantity(index, quantity) {
+            if (quantity <= 0) {
+                removeFromCart(index);
+            } else {
+                cart[index].quantity = quantity;
+                updateCartDisplay();
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const subtotal = document.getElementById('subtotal');
+            const cartIcon = document.querySelector('.cart-icon');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="color: #999; text-align: center; padding: 2rem;">Your cart is empty</p>';
+                subtotal.textContent = '$0.00';
+                cartIcon.textContent = '🛒';
+                return;
+            }
+
+            cartIcon.textContent = `🛒 ${cart.length}`;
+            
+            let total = 0;
+            cartItems.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid #eee;">
+                        <div>
+                            <p style="font-weight: 600; margin-bottom: 0.5rem;">${item.name}</p>
+                            <p style="color: #999; font-size: 0.9rem;">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button onclick="updateQuantity(${index}, ${item.quantity - 1})" style="width: 30px; height: 30px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer;">-</button>
+                            <span style="width: 30px; text-align: center;">${item.quantity}</span>
+                            <button onclick="updateQuantity(${index}, ${item.quantity + 1})" style="width: 30px; height: 30px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer;">+</button>
+                            <button onclick="removeFromCart(${index})" style="margin-left: 0.5rem; background: #ff6b6b; color: white; border: none; border-radius: 4px; padding: 0.5rem 1rem; cursor: pointer;">Remove</button>
+                        </div>
+                        <p style="font-weight: 700;">$${itemTotal.toFixed(2)}</p>
+                    </div>
+                `;
+            }).join('');
+            
+            subtotal.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function openCart() {
+            document.getElementById('cartModal').classList.add('show');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('show');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            alert('Thank you for your order! This is a demo. Total: $' + cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2));
+            cart = [];
+            updateCartDisplay();
+            closeCart();
+        }
+
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('cartModal');
+            if (event.target === modal) {
+                closeCart();
+            }
+        }
+
+        // Initialize
+        updateCartDisplay();
+    </script>
+</body>
+</html>
+```
